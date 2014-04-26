@@ -1,11 +1,11 @@
 /* global define */
 define([
-    'config',
-    'mediator'
-], function (config, Mediator) {
+    'config/application',
+    'core/facade'
+], function (appConfig, Facade) {
     'use strict';
 
-    var moduleData = {}, debug = config.debug;
+    var moduleData = {}, debug = appConfig.debug;
 
     function instanceMethos (name, method) {
         return function () {
@@ -20,7 +20,7 @@ define([
     function createInstance (moduleId, self) {
         var instance, name, method;
 
-        instance = moduleData[moduleId].creator(new Mediator(self));
+        instance = moduleData[moduleId].creator(new Facade(self));
 
         if (!debug) {
             for (name in instance) {

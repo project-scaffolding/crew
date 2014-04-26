@@ -1,7 +1,7 @@
 'use strict';
 
 require.config({
-	deps: ['app'],
+	deps: ['application'],
     paths: {
         jquery: '../bower_components/jquery/jquery',
         underscore: '../bower_components/lodash/dist/lodash',
