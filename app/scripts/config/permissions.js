@@ -11,14 +11,18 @@ define(function () {
 
     var permissions = {
 
-        newContentAvailable: {
-            contentUpdater: true
+        'homeController#index': {
+            homeController: true
+        },
+
+        'aboutController#index': {
+            aboutController: true
         }
 
     };
 
     permissions.validate = function(subscriber, channel){
-        var test = permissions[channel][subscriber];
+        var test = permissions[channel] && permissions[channel][subscriber];
         return test === undefined ? false : test;
     };
 

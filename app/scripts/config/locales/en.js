@@ -6,9 +6,7 @@ define(function () {
 
     var en = {
         hello: 'Hello world'
-
     };
-
 
     return en;
 

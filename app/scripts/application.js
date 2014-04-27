@@ -1,5 +1,7 @@
 'use strict';
-require(['core/app'], function (app) {
-    console.log(app);
-    window.app = app;
+require(['backbone', 'app/router'], function (Backbone, Router) {
+
+    new Router();
+    Backbone.history.start();
+
 });

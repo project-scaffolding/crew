@@ -1,11 +1,13 @@
 'use strict';
 
 require.config({
-	deps: ['application'],
+	deps: [
+        '../bower_components/mediator-js/lib/mediator',
+        'application'
+    ],
     paths: {
         jquery: '../bower_components/jquery/jquery',
         underscore: '../bower_components/lodash/dist/lodash',
-        mediator: '../bower_components/mediator-js/lib/mediator',
         backbone: '../bower_components/backbone/backbone'
     },
     shim: {

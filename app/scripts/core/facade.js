@@ -1,13 +1,11 @@
 /* global define */
 define([
-    'mediator',
+    'core/mediator',
     'config/permissions'
-], function (Mediator, permissions) {
+], function (mediator, permissions) {
     'use strict';
 
-    var Facade = function () {
-        this.mediator = new Mediator ();
-    };
+    var Facade = function () {};
 
     Facade.prototype.subscribe = function(subscriber, channel, callback) {
 
@@ -16,12 +14,12 @@ define([
         // to just use the mediator directly.
 
         if (permissions.validate(subscriber, channel)) {
-            this.mediator.subscribe(channel, callback);
+            mediator.subscribe(channel, callback);
         }
     };
 
-    Facade.prototype.publish = function(channel){
-        this.mediator.publish(channel);
+    Facade.prototype.publish = function() {
+        mediator.publish.apply(mediator, arguments);
     };
     
     return Facade;
