@@ -1,21 +1,38 @@
 /* global define */
-define(function () {
+define(function (require) {
     'use strict';
 
-    var HomeController = function (sandbox) {
+    var HomeController, IndexView;
+
+    IndexView = require('app/views/home/index-view');
+
+    HomeController = function (sandbox) {
 
         return {
 
             init: function () {
-                sandbox.subscribe('homeController', 'homeController#index', this.index.bind(this));
+                this.el = $('body');
+                this.indexView = new IndexView();
+
+                this.currentView = this.indexView;
+
+                sandbox.subscribe('home-controller', 'home-controller#index', this.index.bind(this));
+                sandbox.subscribe('home-controller', 'home-controller#remove', this.removeView.bind(this));
             },
 
             destroy: function () {
-
+                sandbox.remove('home-controller#index');
             },
 
             index: function () {
-                console.log('homeController#index');
+                this.currentView = this.indexView;
+                this.el.append(this.indexView.render().el);
+                this.indexView.delegateEvents();
+            },
+
+            removeView: function () {
+                this.currentView.undelegateEvents();
+                this.currentView.remove();
             }
             
         };

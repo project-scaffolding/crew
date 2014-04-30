@@ -1,7 +1,12 @@
 'use strict';
-require(['backbone', 'app/router'], function (Backbone, Router) {
+require([
+	'backbone',
+	'core/app',
+	'app/router'
+], function (Backbone, App, Router) {
 
-    new Router();
+    App.register('Router', Router);
+    App.start('Router');
     Backbone.history.start();
 
 });

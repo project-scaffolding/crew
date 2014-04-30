@@ -2,43 +2,57 @@
 define(function (require) {
     'use strict';
 
-    var Backbone, Router, Core, Facade;
+    var _, Backbone, Router, App, Facade, routes;
 
-    Core = require('core/app');
+    _ = require('underscore');
+    App = require('core/app');
     Facade = require('core/facade');
     Backbone = require('backbone');
+    routes = require('config/routes');
 
-    Core.register('home-controller', require('app/controllers/home-controller'));
-    Core.register('about-controller', require('app/controllers/about-controller'));
+    App.register('home-controller', require('app/controllers/home-controller'));
+    App.register('about-controller', require('app/controllers/about-controller'));
 
-    Router = Backbone.Router.extend({
+    return function (sandbox) {
 
-        initialize: function () {
-            this.facade = new Facade();
-            Core.start('home-controller');
-            Core.start('about-controller');
-        },
+        var _routes = {};
+        _.each(routes, function (action, route) {
+            _routes[route] = function () {
+                var args = Array.prototype.slice.call(arguments, 1);
+                args.unshift(action);
 
-        destroy: function () {
-            Core.stop('home-controller');
-            Core.stop('about-controller');
-        },
+                if (router.currentController) {
+                    sandbox.publish.apply(router, [router.currentController.replace(/\#\w*/, '') + '#remove']);
+                }
+                router.currentController = action;
+                sandbox.publish.apply(router, args);
+            };
+        });
 
-        routes: {
-            '': 'home',
-            'home': 'home',
-            'about': 'about',
-            '*action': 'home'
-        },
+        Router = Backbone.Router.extend({
 
-        home: function () {
-            this.facade.publish('homeController#index');
-        },
+            currentController: null,
 
-        about: function () {
-            this.facade.publish('aboutController#index');
-        }
-    });
-    
-    return Router;
+            routes: _routes,
+
+            init: function () {
+                this.currentPage = null;
+
+                App.start('home-controller');
+                App.start('about-controller');
+            },
+
+            destroy: function () {
+                App.stop('home-controller');
+                App.stop('about-controller');
+            }
+
+        });
+        
+        var router = new Router();
+
+        return router;
+
+    };
+
 });
