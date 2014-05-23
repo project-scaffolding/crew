@@ -1,22 +1,27 @@
 'use strict';
-
 require.config({
 	deps: [
-        '../bower_components/mediator-js/lib/mediator',
-        'application'
+        'boot'
     ],
     paths: {
-        jquery: '../bower_components/jquery/jquery',
-        underscore: '../bower_components/lodash/dist/lodash',
-        backbone: '../bower_components/backbone/backbone'
+        'jquery': '../bower_components/jquery/jquery',
+        'underscore': '../bower_components/lodash/dist/lodash',
+        'backbone': '../bower_components/backbone/backbone',
+        'backbone.wreqr': '../bower_components/backbone.wreqr/lib/backbone.wreqr',
+        'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
+        'marionette': '../bower_components/backbone.marionette/lib/core/amd/backbone.marionette'
     },
     shim: {
         'underscore': {
-            exports: '_'
+            'exports': '_'
         },
         'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
+            'deps': ['underscore', 'jquery'],
+            'exports': 'Backbone'
+        },
+        'marionette': {
+            'deps': ['backbone'],
+            'exports': 'Marionette'
         }
     }
 });

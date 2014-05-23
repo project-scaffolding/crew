@@ -62,7 +62,7 @@ module.exports = function (grunt) {
             },
             jst: {
                 files: [
-                    '<%= yeoman.app %>/scripts/app/templates/**/*.ejs'
+                    '<%= yeoman.app %>/scripts/apps/*/*/templates/*.ejs'
                 ],
                 tasks: ['jst']
             }
@@ -367,7 +367,7 @@ module.exports = function (grunt) {
             },
             compile: {
                 files: {
-                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/app/templates/**/*.ejs']
+                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/apps/*/*/templates/*.ejs']
                 }
             }
         },
