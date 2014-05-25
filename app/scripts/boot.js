@@ -1,8 +1,15 @@
 'use strict';
 require([
-	'application',
-	'apps/header/header-application',
-    'apps/footer/footer-application'
-], function (App) {
-	App.start();
-});
+	'config/marionette/application',
+    'config/marionette/renderer',
+    'base/views/view',
+    'base/views/itemview',
+    'base/views/layout',
+    'base/views/collectionview',
+    'base/views/compositeview',
+    'entities/header',
+    'entities/user',
+    'apps/users/users-application',
+    'apps/leads/leads-application',
+    'initializer'
+]);

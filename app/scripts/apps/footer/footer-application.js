@@ -2,7 +2,7 @@
 define([
     'application',
     'apps/footer/show/show-controller'
-], function (App) {
+], function (App, ShowController) {
     'use strict';
 
     var FooterApp;
@@ -10,7 +10,7 @@ define([
     FooterApp = App.module('FooterApp');
     FooterApp.startWithParent = false;
     FooterApp.on('start', function () {
-        FooterApp.Show.Controller.showFooter();
+        ShowController.showFooter();
     });
 
     return FooterApp;

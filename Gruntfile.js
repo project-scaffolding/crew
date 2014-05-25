@@ -70,12 +70,27 @@ module.exports = function (grunt) {
 
         // The actual grunt server settings
         connect: {
+            'static': {
+                options: {
+                    hostname: 'localhost',
+                    port: 9000
+                }
+            },
             options: {
                 port: 9000,
                 livereload: 35729,
-                // Change this to '0.0.0.0' to access the server from outside
+                // Change    to '0.0.0.0' to access the server from outside
                 hostname: 'localhost'
             },
+            proxies: [
+                {
+                    context: '/api',
+                    host: 'localhost',
+                    port: 3000,
+                    https: false,
+                    changeOrigin: true
+                }
+            ],
             livereload: {
                 options: {
                     open: true,
@@ -83,7 +98,15 @@ module.exports = function (grunt) {
                         '.tmp',
                         '<%= yeoman.app %>',
                         '.'
-                    ]
+                    ],
+                    middleware: function (connect) {
+                        var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+                        return [
+                            proxySnippet,
+                            connect.static(require('path').resolve('app')),
+                            connect.static(require('path').resolve('.tmp'))
+                        ];
+                    }
                 }
             },
             test: {
@@ -214,12 +237,16 @@ module.exports = function (grunt) {
                     // baseUrl: '.tmp/scripts',
                     baseUrl: '<%= yeoman.app %>/scripts',
                     optimize: 'none',
-                    // paths: {
-                    //     jquery: '../bower_components/jquery/jquery',
-                    //     underscore: '../bower_components/lodash/dist/lodash',
-                    //     backbone: '../bower_components/backbone/backbone',
-                    //     validation: '../bower_components/backbone.validation/dist/backbone-validation-amd'
-                    // },
+                    paths: {
+                        'templates': '.tmp/scripts/templates',
+                        'jquery': '../bower_components/jquery/jquery',
+                        'underscore': '../bower_components/lodash/dist/lodash',
+                        'backbone': '../bower_components/backbone/backbone',
+                        'backbone.wreqr': '../bower_components/backbone.wreqr/lib/backbone.wreqr',
+                        'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
+                        'marionette': '../bower_components/backbone.marionette/lib/core/amd/backbone.marionette'
+                        
+                    },
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
                     //generateSourceMaps: true,
@@ -417,6 +444,7 @@ module.exports = function (grunt) {
             'clean:server',
             'concurrent:server',
             'autoprefixer',
+            'configureProxies',
             'connect:livereload',
             'watch'
         ]);

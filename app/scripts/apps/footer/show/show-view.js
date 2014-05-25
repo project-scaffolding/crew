@@ -1,15 +1,19 @@
 /*global define*/
 define([
-    'marionette',
     'application'
-], function (Marionette, App) {
+], function (App) {
     'use strict';
 
-    var Show = App.module('FooterApp.Show');
+    var FooterView;
 
-    Show.View = Marionette.ItemView.extend({
-        template: 'footer/show/templates/show-template.ejs'
+    FooterView = App.Views.ItemView.extend({
+        template: 'footer/show/templates/show-template.ejs',
+        modelEvents: {
+            'change': 'render'
+        }
     });
 
-    return Show;
+    return {
+        FooterView: FooterView
+    };
 });

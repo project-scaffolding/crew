@@ -1,22 +1,24 @@
 /*global define*/
 define([
-    'marionette',
     'application'
-], function (Marionette, App) {
+], function (App) {
     'use strict';
 
-    var List = App.module('HeaderApp.List');
+    var Header, Headers;
 
-    List.Header = Marionette.ItemView.extend({
+    Header = App.Views.ItemView.extend({
         template: 'header/list/templates/_header.ejs',
         tagName: 'li'
     });
 
-    List.Headers = Marionette.CompositeView.extend({
+    Headers = App.Views.CompositeView.extend({
         template: 'header/list/templates/headers.ejs',
-        itemView: List.Header,
+        itemView: Header,
 		itemViewContainer: 'ul'
     });
 
-    return List;
+    return {
+        Header: Header,
+        Headers: Headers
+    };
 });

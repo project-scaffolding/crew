@@ -2,7 +2,7 @@
 define([
     'application',
     'apps/header/list/list-controller'
-], function (App) {
+], function (App, ListController) {
     'use strict';
 
     var HeaderApp;
@@ -10,7 +10,7 @@ define([
     HeaderApp = App.module('HeaderApp');
     HeaderApp.startWithParent = false;
     HeaderApp.on('start', function () {
-        HeaderApp.List.Controller.listHeader();
+        ListController.listHeader();
     });
 
     return HeaderApp;

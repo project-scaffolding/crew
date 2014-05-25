@@ -2,22 +2,24 @@
 define([
     'application',
     'apps/footer/show/show-view'
-], function (App) {
+], function (App, View) {
     'use strict';
 
-    var Show = App.module('FooterApp.Show');
+    var Controller;
 
-    Show.Controller = {
+    Controller = {
         showFooter: function () {
-            this.footerView = this.getFooterView();
+            var currentUser = App.request('get:current:user');
+            this.footerView = this.getFooterView(currentUser);
             App.footerRegion.show(this.footerView);
         },
 
-        getFooterView: function () {
-            var view = new Show.View();
-            return view;
+        getFooterView: function (currentUser) {
+            return new View.FooterView({
+                model: currentUser
+            });
         }
     };
 
-    return Show;
+    return Controller;
 });
